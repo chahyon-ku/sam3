@@ -44,10 +44,12 @@ class Sam3Processor:
         if state is None:
             state = {}
 
-        if isinstance(image, PIL.Image.Image):
+        if isinstance(image, PIL.Image.Image):  # whc
             width, height = image.size
-        elif isinstance(image, (torch.Tensor, np.ndarray)):
-            height, width = image.shape[-2:]
+        elif isinstance(image, torch.Tensor):  # chw
+            height, width = image.shape[1:]
+        elif isinstance(image, np.ndarray):  # hwc
+            height, width = image.shape[:2]
         else:
             raise ValueError("Image must be a PIL image or a tensor")
 
